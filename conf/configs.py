@@ -10,8 +10,8 @@ datasources = {
 
 mysql_creds = {
     "aws1" : {
-            "user":"beautiful",
-            "password":"soup1",
-            "host":"54.212.119.45"
+            "user":"user",
+            "password":"password",
+            "host":"x.x.x.x"
     }
 }
