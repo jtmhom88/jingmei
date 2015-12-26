@@ -1,13 +1,7 @@
 #!/usr/bin/python
 
-
-datasources = {
-    "wsj" : { 
-            "urls" : ["http://www.wsj.com","http://www.wsj.com/news/markets"],
-            "code" : "wsj"
-    }
-}
-
+# Credentials for Mysql instance
+# replace with actual credentials
 mysql_creds = {
     "aws1" : {
             "user":"user",
