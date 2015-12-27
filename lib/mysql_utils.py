@@ -8,9 +8,9 @@ import mysql.connector
 # for mysql connection
 
 # config = { 
-#     'user': 'xxx', 
-#     'password': 'xxx', 
-#     'host': 'xxx'
+#      'user': 'xxx', 
+#      'password': 'xxx', 
+#      'host': 'xxx'
 # }
 
 # Pass it a config object, and it returns a connection object
@@ -44,8 +44,8 @@ def insert_url(connection, url, datasource):
 
 def insert_article_line(connection, url, datasource, article_idx, article_line_no, article_text ):
   cursor = connection.cursor(buffered=True) 
-  query = "select count(*) from sentiment.article_lines where article_url = %s " 
-  args = ((url,))
+  query = "select count(*) from sentiment.article_lines where article_url = %s AND article_line_no = %s " 
+  args = (url, article_line_no)
   try:
     cursor.execute(query, args)
     row = cursor.fetchone()
