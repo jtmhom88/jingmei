@@ -61,7 +61,7 @@ def insert_article_line(connection, url, datasource, article_idx, article_line_n
   else:
     print "inserting"
     try:
-      query = "INSERT IGNORE INTO sentiment.article_lines (article_url, datasource, article_idx, article_line_no, article_text) " \
+      query = "INSERT INTO sentiment.article_lines (article_url, datasource, article_idx, article_line_no, article_text) " \
             "VALUES(%s,%s,%s,%s,%s)"
       args = (url,datasource, article_idx,article_line_no,article_text)
       print args
