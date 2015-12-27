@@ -13,7 +13,6 @@ import mysql.connector
 #      'host': 'xxx'
 # }
 
-
 # Pass it a config object
 # Returns a connection object
 def connect(config):
@@ -42,6 +41,7 @@ def insert_url(connection, url, datasource):
     print('last insert id', cursor.lastrowid)
   else:
     print('last insert id not found, nothing inserted')
+  connection.commit()
   pass
 
 # Pass it connection, url, datasource, article_idx, article_line_no, article_text 
@@ -82,6 +82,7 @@ def insert_article_line(connection, url, datasource, article_idx, article_line_n
     else:
       pass
     finally:
+      connection.commit()
       pass
 
 # Function to takes connection, url
@@ -89,7 +90,7 @@ def insert_article_line(connection, url, datasource, article_idx, article_line_n
 # If none found, it returns 0
 def get_article_idx(connection, url):
   cursor = connection.cursor(buffered=True) 
-  query = "select idx from sentiment.article_urls where url = %s " 
+  query = "SELECT idx FROM sentiment.article_urls WHERE url = %s " 
   args = ((url,))
   try:
     cursor.execute(query, args)
@@ -104,15 +105,15 @@ def get_article_idx(connection, url):
     return article_idx
   pass
 
-##Testing block
+# ##Testing block
 # if __name__ == '__main__':
 #   connection = connect(config)
 #   url='http://www.msn.com/en-us/money/taxes/trump-tax-plan-would-cut-federal-revenue-22percent/ar-BBnPh7Q'
-#   url='foobar'
+#   #url='foobar'
 #   datasource='msn'
 #   article_idx=58
 #   article_line_no=0
 #   article_text='Donald Duck'
-#   #insert_article_line(connection, url, datasource, article_idx, article_line_no, article_text )
-#   print get_article_idx(connection,url)
+#   insert_article_line(connection, url, datasource, article_idx, article_line_no, article_text )
+#   print "article_idx:",get_article_idx(connection,url)
 #   pass
