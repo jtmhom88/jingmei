@@ -32,11 +32,12 @@ def getarticlelist(sourceconfigs):
 
                 #Find all links that match one of the patterns in the config
                 #Add them to article list if they match
+                #Text contents of the <a> tag is added as article title
                 for a in links:
                     for p in patterns:
                         if p[0].match(a['href']):
                             trimmedurl = p[1]+trim(a['href'])
-                            article_list[trimmedurl] = sdata['code']
+                            article_list[trimmedurl] = (sdata['code'],a.get_text().strip())
                             
             except urllib2.HTTPError:
                 print('HTTPError')
