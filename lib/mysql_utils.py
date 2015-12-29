@@ -30,12 +30,12 @@ def connect(config):
 
 # Pass it connection, url, and tag, and it inserts it
 # datasource example 'wsj'
-def insert_url(connection, url, datasource):
+def insert_url(connection, url, datasource, title):
   cursor = connection.cursor(buffered=True) 
-  query = "INSERT IGNORE INTO sentiment.article_urls (url,datasource) " \
-            "VALUES(%s,%s)"
+  query = "INSERT IGNORE INTO sentiment.article_urls (url,datasource,title) " \
+            "VALUES(%s,%s,%s)"
   #args = ('http://www.wsj.com/articles/the-best-coach-approach-promote-or-poach-1449792464', 'wsj')
-  args = (url, datasource)
+  args = (url, datasource, title)
   cursor.execute(query, args)
   if cursor.lastrowid:
     print('last insert id', cursor.lastrowid)
