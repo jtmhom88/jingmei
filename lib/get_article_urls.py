@@ -37,7 +37,7 @@ def getarticlelist(sourceconfigs):
                     for p in patterns:
                         if p[0].match(a['href']):
                             trimmedurl = p[1]+trim(a['href'])
-                            article_list[trimmedurl] = (sdata['code'],a.get_text().strip())
+                            article_list[trimmedurl] = (sdata['code'],clean(a.get_text()))
                             
             except urllib2.HTTPError:
                 print('HTTPError')
@@ -57,4 +57,11 @@ def trim(s):
     if q != -1:
         s = s[0:q]
     return s
+
+def clean(s):
+    subs = s.split(' ')
+    r = ''
+    for t in subs:
+        r = r+t.strip()+' '
+    return r
 

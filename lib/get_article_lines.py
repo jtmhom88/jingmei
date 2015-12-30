@@ -3,18 +3,22 @@ from bs4 import BeautifulSoup
 from cookielib import CookieJar
 
 #Get article lines for given URL
-def getarticlelines(sourceconfigs, url, source):
+def getarticlelines(sourceconfigs, url, source, cookieopeners):
     #If source is wsj or seekingalpha, need to log in
     #Need to figure out how to throw out comments on zerohedge
     lines = []
-    if source == 'wsj' or source == 'zerohedge' or source == 'seekingalpha':
+    if source == 'zerohedge' or source == 'seekingalpha':
         return lines
     else:
         try:
+            #For login sites, use provided cookie opener, if it exists
+            copener = cookieopeners.get(source)
             o = urllib2.Request(url)
-            cj = CookieJar()
-            newopener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-            response = newopener.open(o)
+            if copener == None:
+                cj = CookieJar()
+                copener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+
+            response = copener.open(o)
             soup = BeautifulSoup(response.read())
 
             tag = sourceconfigs[source]['article-text-tag']
@@ -36,6 +40,8 @@ def getarticlelines(sourceconfigs, url, source):
                             elif s.name == 'br':
                                 if articleline.strip() != '':
                                     lines.append(articleline)
+                                    if len(articleline) > 10000:
+                                        raise Exception
                                 articleline = ''
                             else:
                                 for t in s.strings:
@@ -43,6 +49,8 @@ def getarticlelines(sourceconfigs, url, source):
                                
                         if articleline.strip() != '':
                             lines.append(articleline)
+                            if len(articleline) > 10000:
+                                raise Exception
             return lines
         except urllib2.HTTPError:
             print('HTTPError')
