@@ -1,4 +1,4 @@
-import re, urllib2, httplib
+import re, urllib2, httplib, socket
 from bs4 import BeautifulSoup
 from cookielib import CookieJar
 
@@ -17,7 +17,7 @@ def getarticlelist(sourceconfigs):
             cj = CookieJar()
             newopener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
             try:
-                response = newopener.open(o)
+                response = newopener.open(o, timeout=5)
                 soup = BeautifulSoup(response.read())
 
                 #Get all <a> tags
@@ -39,12 +39,14 @@ def getarticlelist(sourceconfigs):
                             trimmedurl = p[1]+trim(a['href'])
                             article_list[trimmedurl] = (sdata['code'],clean(a.get_text()))
                             
-            except urllib2.HTTPError:
-                print('HTTPError')
+            except urllib2.HTTPError,e:
+                print('HTTPError',e)
             except urllib2.URLError:
-                print('URLError')
+                print('URLError',e)
             except httplib.IncompleteRead:
-                print('IncompleteRead')
+                print('IncompleteRead',e)
+            except socket.timeout:
+                print('timeout')
     return article_list
 
 #To trim off the query portion of a URL that starts after '?'
@@ -63,5 +65,5 @@ def clean(s):
     r = ''
     for t in subs:
         r = r+t.strip()+' '
-    return r
+    return r.strip()
 

@@ -1,7 +1,7 @@
 import urllib2, httplib
 from cookielib import CookieJar
 
-def getwsjopener(path):
+def getcookieopener(path, site):
     try:
         f = open(path,'r')
     except IOError:
@@ -17,7 +17,7 @@ def getwsjopener(path):
             cookiesdict[strings[5]] = val
 
     #Build urllib2 request using the cookie dictionary
-    o = urllib2.Request('http://www.wsj.com')
+    o = urllib2.Request(site)
     o.add_header(
         'Cookie', "; ".join('%s=%s' % (k,v) for k,v in cookiesdict.items()))
 
@@ -25,8 +25,8 @@ def getwsjopener(path):
     cj = CookieJar()
     newopener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 
-    #Next line will open wsj.com and store a 
-    #new session cookie provided by wsj.com in the cookie jar
+    #Next line will open the url stored in 'site' and store a 
+    #new session cookie provided by the site in the cookie jar
     try:
         response = newopener.open(o)
     except urllib2.HTTPError:
