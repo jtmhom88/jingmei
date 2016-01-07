@@ -105,6 +105,18 @@ def get_article_idx(connection, url):
     return article_idx
   pass
 
+def update_download_code(connection, idx, code):
+  cursor = connection.cursor(buffered=True) 
+  query = "UPDATE sentiment.article_urls SET downloaded_flag = %s WHERE idx = %s"
+  args = (code, idx)
+  cursor.execute(query, args)
+  if cursor.lastrowid:
+    print('last insert id', cursor.lastrowid)
+  else:
+    print('last insert id not found, nothing inserted')
+  connection.commit()
+  pass
+
 # ##Testing block
 # if __name__ == '__main__':
 #   connection = connect(config)

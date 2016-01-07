@@ -21,6 +21,7 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
         
         if len(articlediv)==0:
             print "Couldn't find article text tag"
+            return (20, lines)
         else:
             maindiv = articlediv[0]
             #Look for <p> tags that are children of the main tag
@@ -48,18 +49,18 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
                         lines.append(strippedarticleline)
                         if len(articleline) > 10000:
                             raise Exception
-        return lines
+        return (1, lines)
     except urllib2.HTTPError,e:
         print('HTTPError',e)
-        return lines
+        return (12, lines)
     except urllib2.URLError,e:
         print('URLError',e)
-        return lines
+        return (11, lines)
     except httplib.IncompleteRead,e:
         print('IncompleteRead',e)
-        return lines
+        return (13, lines)
     except socket.timeout:
         print('timeout')
-        return lines
+        return (10, lines)
     
         
