@@ -5,7 +5,7 @@ from cookielib import CookieJar
 #Return full article list from the datasource config data
 def getarticlelist(sourceconfigs):
     #Article list we return will be a dictionary with keys = article urls
-    #and values = datasource code string, e.g. "wsj"
+    #and value the tuple (datasource, title)
     article_list = dict()
     for s, sdata in sourceconfigs.iteritems():
         print 'Getting article URLs for '+sdata['code']
@@ -47,6 +47,7 @@ def getarticlelist(sourceconfigs):
                 print('IncompleteRead',e)
             except socket.timeout:
                 print('timeout')
+    print "Got "+str(len(article_list))+" articles"
     return article_list
 
 #To trim off the query portion of a URL that starts after '?'

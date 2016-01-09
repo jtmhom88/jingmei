@@ -105,17 +105,34 @@ def get_article_idx(connection, url):
     return article_idx
   pass
 
+#Update download code of an article after attempting to download it
 def update_download_code(connection, idx, code):
   cursor = connection.cursor(buffered=True) 
   query = "UPDATE sentiment.article_urls SET downloaded_flag = %s WHERE idx = %s"
   args = (code, idx)
-  cursor.execute(query, args)
-  if cursor.lastrowid:
-    print('last insert id', cursor.lastrowid)
-  else:
-    print('last insert id not found, nothing inserted')
-  connection.commit()
-  pass
+  try:
+    cursor.execute(query, args)
+    connection.commit()
+    print "Updated download code to "+str(code)
+  except Exception, e:
+    print "Exception: could not execute query %s" % (query)
+    print e
+
+#Get all the urls in article_urls with the specified code
+def get_urls_with_codes(connection, code):
+  cursor = connection.cursor(buffered=True)
+  query = "SELECT idx, url, datasource FROM sentiment.article_urls WHERE downloaded_flag = %s"
+  args = ((code,))
+  url_list = []
+  try:
+    cursor.execute(query, args)
+    for x in cursor:
+      url_list.append(x)
+    return url_list
+  except Exception, e:
+    print "Exception: could not execute query %s" % (query)
+    return url_list
+    
 
 # ##Testing block
 # if __name__ == '__main__':
