@@ -12,7 +12,9 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
         if copener == None:
             cj = CookieJar()
             copener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-
+        
+        copener.addheaders = [('User-agent',
+                                'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.5.0')]
         response = copener.open(o, timeout=5)
         soup = BeautifulSoup(response.read())
 
@@ -51,10 +53,10 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
                             raise Exception
         return (1, lines)
     except urllib2.HTTPError,e:
-        print('HTTPError',e)
+        print('HTTPError',e.code,e.reason)
         return (12, lines)
     except urllib2.URLError,e:
-        print('URLError',e)
+        print('URLError',e.reason)
         return (11, lines)
     except httplib.IncompleteRead,e:
         print('IncompleteRead',e)

@@ -16,6 +16,8 @@ def getarticlelist(sourceconfigs):
             #Build opener with a cookie processor (required for some sites)
             cj = CookieJar()
             newopener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+            newopener.addheaders = [('User-agent',
+                                  'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.5.0')]
             try:
                 response = newopener.open(o, timeout=5)
                 soup = BeautifulSoup(response.read())
@@ -40,10 +42,10 @@ def getarticlelist(sourceconfigs):
                             article_list[trimmedurl] = (sdata['code'],clean(a.get_text()))
                             
             except urllib2.HTTPError,e:
-                print('HTTPError',e)
-            except urllib2.URLError:
-                print('URLError',e)
-            except httplib.IncompleteRead:
+                print('HTTPError',e.code,e.reason)
+            except urllib2.URLError,e:
+                print('URLError',e.reason)
+            except httplib.IncompleteRead,e:
                 print('IncompleteRead',e)
             except socket.timeout:
                 print('timeout')
