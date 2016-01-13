@@ -51,6 +51,8 @@ def getarticlelist(sourceconfigs):
                 print ('ValueError (bad URL?)')
             except socket.timeout:
                 print('timeout')
+            except socket.error:
+                print('Socket error')
     print "Got "+str(len(article_list))+" articles"
     return article_list
 

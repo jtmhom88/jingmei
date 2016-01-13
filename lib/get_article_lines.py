@@ -67,5 +67,8 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
     except socket.timeout:
         print('timeout')
         return (10, lines)
+    except socket.error:
+        print('Socket error')
+        return (15, lines)
     
         
