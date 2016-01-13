@@ -41,12 +41,14 @@ def getarticlelist(sourceconfigs):
                             trimmedurl = p[1]+trim(a['href'])
                             article_list[trimmedurl] = (sdata['code'],clean(a.get_text()))
                             
-            except urllib2.HTTPError,e:
-                print('HTTPError',e.code,e.reason)
-            except urllib2.URLError,e:
-                print('URLError',e.reason)
-            except httplib.IncompleteRead,e:
-                print('IncompleteRead',e)
+            except urllib2.HTTPError:
+                print('HTTPError')
+            except urllib2.URLError:
+                print('URLError')
+            except httplib.IncompleteRead:
+                print('IncompleteRead')
+            except ValueError:
+                print ('ValueError (bad URL?)')
             except socket.timeout:
                 print('timeout')
     print "Got "+str(len(article_list))+" articles"

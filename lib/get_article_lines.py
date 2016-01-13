@@ -52,15 +52,18 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
                         if len(articleline) > 10000:
                             raise Exception
         return (1, lines)
-    except urllib2.HTTPError,e:
-        print('HTTPError',e.code,e.reason)
+    except urllib2.HTTPError:
+        print('HTTPError')
         return (12, lines)
-    except urllib2.URLError,e:
-        print('URLError',e.reason)
+    except urllib2.URLError:
+        print('URLError')
         return (11, lines)
-    except httplib.IncompleteRead,e:
-        print('IncompleteRead',e)
+    except httplib.IncompleteRead:
+        print('IncompleteRead')
         return (13, lines)
+    except ValueError:
+        print('ValueError (bad url?)')
+        return(14, lines)
     except socket.timeout:
         print('timeout')
         return (10, lines)
