@@ -1,5 +1,6 @@
 import re, urllib2, httplib, socket
 from bs4 import BeautifulSoup
+from urlparse import urljoin
 from cookielib import CookieJar
 
 #Return full article list from the datasource config data
@@ -29,16 +30,16 @@ def getarticlelist(sourceconfigs):
                 patterns = []
                 patternlist = u['patterns']
                 for p in patternlist:
-                    r = re.compile(p['regex'])
-                    patterns.append([r,p['baseurl']])
+                    r = re.compile(p)
+                    patterns.append(r)
 
                 #Find all links that match one of the patterns in the config
                 #Add them to article list if they match
                 #Text contents of the <a> tag is added as article title
                 for a in links:
                     for p in patterns:
-                        if p[0].match(a['href']):
-                            trimmedurl = p[1]+trim(a['href'])
+                        if p.match(a['href']):
+                            trimmedurl = urljoin(u['url'],trim(a['href']))
                             article_list[trimmedurl] = (sdata['code'],clean(a.get_text()))
                             
             except urllib2.HTTPError:
