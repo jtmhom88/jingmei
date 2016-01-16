@@ -20,6 +20,7 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
 
         tag = sourceconfigs[source]['article-text-tag']
         articlediv = soup.find_all(**tag)
+        clipped_lines = False
         
         if len(articlediv)==0:
             print "Couldn't find article text tag"
@@ -40,7 +41,7 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
                             if articleline.strip() != '':
                                 lines.append(strippedarticleline)
                                 if len(articleline) > 10000:
-                                    raise Exception
+                                    clipped_lines = True
                             articleline = ''
                         else:
                             for t in s.strings:
@@ -50,8 +51,11 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
                     if articleline.strip() != '':
                         lines.append(strippedarticleline)
                         if len(articleline) > 10000:
-                            raise Exception
-        return (1, lines)
+                            clipped_lines = True
+        if (clipped_lines == True):
+            return (2, lines)
+        if (clipped_lines == False):
+            return (1, lines)
     except urllib2.HTTPError:
         print('HTTPError')
         return (12, lines)
