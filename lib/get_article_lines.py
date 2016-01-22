@@ -29,7 +29,13 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
             maindiv = articlediv[0]
             #Look for <p> tags that are children of the main tag
             for c in maindiv.descendants:
-                if c.name=='p':
+                if c.name==None:
+                    strippedline = c.strip()
+                    if strippedline != '':
+                        lines.append(strippedline)
+                        if len(strippedline) > 10000:
+                            clipped_lines = True
+                elif c.name=='p':
                     articleline = ''
                     for s in c.contents:
                         #Sometimes article lines are broken up by <br> tags
@@ -38,9 +44,9 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
                             articleline = articleline+s.strip()+" "
                         elif s.name == 'br':
                             strippedarticleline = articleline.strip()
-                            if articleline.strip() != '':
+                            if strippedarticleline != '':
                                 lines.append(strippedarticleline)
-                                if len(articleline) > 10000:
+                                if len(strippedarticleline) > 10000:
                                     clipped_lines = True
                             articleline = ''
                         else:
@@ -48,14 +54,17 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
                                 articleline = articleline+t.strip()+" "
                            
                     strippedarticleline = articleline.strip()
-                    if articleline.strip() != '':
+                    if strippedarticleline != '':
                         lines.append(strippedarticleline)
-                        if len(articleline) > 10000:
+                        if len(strippedarticleline) > 10000:
                             clipped_lines = True
-        if (clipped_lines == True):
-            return (2, lines)
-        if (clipped_lines == False):
-            return (1, lines)
+        if len(lines)==0:
+            return (3, lines)
+        else:
+            if (clipped_lines == True):
+                return (2, lines)
+            if (clipped_lines == False):
+                return (1, lines)
     except urllib2.HTTPError:
         print('HTTPError')
         return (12, lines)
