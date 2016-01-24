@@ -58,7 +58,10 @@ def getarticlelist(sourceconfigs):
     return article_list
 
 #To trim off the query portion of a URL that starts after '?'
-#And also the part that starts after '#'
+#And also the part that starts after '#', and the "/" at
+#the end of the URL, if there is one.
+#This prevents duplicate urls that link to the same page but
+#have different query strings, etc.
 def trim(s):
     q = s.find('?')
     if q != -1:
@@ -66,6 +69,9 @@ def trim(s):
     q = s.find('#')
     if q != -1:
         s = s[0:q]
+    if len(s) > 0:
+        if s[-1]=="/":
+            s = s[0:-1]
     return s
 
 def clean(s):
