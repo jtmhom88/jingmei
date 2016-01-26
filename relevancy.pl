@@ -54,7 +54,7 @@ my $dbh = DBI->connect(
 # Get article urls
 my $table = 'article_urls';
 
-my $sql = "SELECT * from $database.$table where DATE(dt_modified) = '2016-01-24' ";
+my $sql = "SELECT * from $database.$table where DATE(dt_modified) = dt_modified > DATE_SUB(NOW(), INTERVAL 6 HOUR) ";
 
 my $sth = $dbh->prepare($sql)
     || die "$DBI::errstr";
