@@ -18,7 +18,19 @@ def getcookieopener(path):
                     tempcookiefile.write(l)
                 else:    
                     strings = l.split()
+
+                    #Make sure strings has 7 elements.. if missing elements, just add blank strings
+                    if len(strings) < 7:
+                        while len(strings) < 7:
+                            strings.append(' ')
                     for i in range(len(strings)):
+
+                        #Issue caused if the end of line character is '\r'
+                        #instead of '\n'
+                        if i == 6:
+                            if strings[i][-1]=='\r':
+                                strings[i] = strings[i][:-1]
+
                         if i != 4:
                             if i != len(strings)-1:
                                 tempcookiefile.write(strings[i]+'\t')
