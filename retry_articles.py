@@ -13,15 +13,14 @@ from get_article_lines import *
 from get_wsj_opener import *
 from mysql.connector.errors import Error
 import datasources
-from mysql.connector.errors import Error
 
 # Configs
 # Load Env Variables if they exist, otherwise use local configs
 try:
 	mysql_user = os.environ['MYSQL_USER']
 	mysql_pwd = os.environ['MYSQL_PWD']
-	#mysql_ip = os.environ['MYSQL_IP']
-	mysql_ip = os.environ['MYSQL_IPLOCAL']
+	mysql_ip = os.environ['MYSQL_IP']
+	#mysql_ip = os.environ['MYSQL_IPLOCAL']
 	myconf = {"user": mysql_user,
 	    "password":mysql_pwd,
 	    "host":mysql_ip}
@@ -29,8 +28,8 @@ try:
 except Exception, e:
 	myconf = { 
 	#"user":"root",
-	"user":"beautiful",
-	"password":"miso314",
+	"user":"bexxx",
+	"password":"mixxx",
 	"host":"127.0.0.1"
 	#"host":"54.244.239.236"
 	}

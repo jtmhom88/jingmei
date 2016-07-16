@@ -13,7 +13,6 @@ from get_article_lines import *
 from get_wsj_opener import *
 from mysql.connector.errors import Error
 import datasources
-from mysql.connector.errors import Error
 
 # Configs
 # Load Env Variables if they exist, otherwise use local configs
@@ -28,7 +27,7 @@ try:
 except Exception, e:
 	myconf = { 
 	"user":"bexxx",
-	"password":"misxxx",
+	"password":"raxxx",
 	"host":"127.0.0.1"
 	}
 	print "Cannot find env varibles",e
