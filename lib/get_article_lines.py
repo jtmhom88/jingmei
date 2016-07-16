@@ -27,61 +27,62 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
             print "Couldn't find article text tag"
             return (20, ['Placeholder line'])
         else:
-            maindiv = articlediv[0]
-            if source != 'newsmax':
-            #Look for <p> tags that are children of the main tag
-                for c in maindiv.descendants:
-                    if c.name=='p':
-                        articleline = ''
-                        for s in c.contents:
-                            #Sometimes article lines are broken up by <br> tags
-                            #instead of <p> tags.
-                            #The if statement deals w/ this
-                            if s.name == None:
-                                articleline = articleline+s.strip()+" "
-                            elif s.name == 'br':
-                                addToLines(articleline, lines)
-                                articleline = ''
-                            else:
-                                for t in s.strings:
-                                    articleline = articleline+t.strip()+" "
-                           
-                        addToLines(articleline, lines)
-            else:
-                #Newsmax uses <p> tags very inconsistently
-                #Sometimes articles have no <p> tags,
-                #sometimes articles have text both outside and inside
-                #<p> tags.  No other sites seem to do this so we use a separate
-                #scraping routine
-                articleline = ''
-                for c in maindiv.contents:
-                    if c.name==None:
-                        articleline = articleline+c.strip()+" "
-                    elif c.name=='br':
-                        addToLines(articleline, lines)
-                        articleline = ''
-                    elif c.name=='p':
-                        addToLines(articleline, lines)
-                        articleline = ''
-                        for s in c.contents:
-                            #Sometimes article lines are broken up by <br> tags
-                            #instead of <p> tags.
-                            #The if statement deals w/ this
-                            if s.name == None:
-                                articleline = articleline+s.strip()+" "
-                            elif s.name == 'br':
-                                addToLines(articleline, lines)
-                                articleline = ''
-                            else:
-                                for t in s.strings:
-                                    articleline = articleline+t.strip()+" "
-                           
-                        addToLines(articleline, lines)
-                        articleline = ''
-                    else:
-                        for t in c.strings:
-                            articleline = articleline+t.strip()+" "
-                addToLines(articleline, lines)
+            for d in articlediv:
+                maindiv = d
+                if source != 'newsmax':
+                #Look for <p> tags that are children of the main tag
+                    for c in maindiv.descendants:
+                        if c.name=='p':
+                            articleline = ''
+                            for s in c.contents:
+                                #Sometimes article lines are broken up by <br> tags
+                                #instead of <p> tags.
+                                #The if statement deals w/ this
+                                if s.name == None:
+                                    articleline = articleline+s.strip()+" "
+                                elif s.name == 'br':
+                                    addToLines(articleline, lines)
+                                    articleline = ''
+                                else:
+                                    for t in s.strings:
+                                        articleline = articleline+t.strip()+" "
+                               
+                            addToLines(articleline, lines)
+                else:
+                    #Newsmax uses <p> tags very inconsistently
+                    #Sometimes articles have no <p> tags,
+                    #sometimes articles have text both outside and inside
+                    #<p> tags.  No other sites seem to do this so we use a separate
+                    #scraping routine
+                    articleline = ''
+                    for c in maindiv.contents:
+                        if c.name==None:
+                            articleline = articleline+c.strip()+" "
+                        elif c.name=='br':
+                            addToLines(articleline, lines)
+                            articleline = ''
+                        elif c.name=='p':
+                            addToLines(articleline, lines)
+                            articleline = ''
+                            for s in c.contents:
+                                #Sometimes article lines are broken up by <br> tags
+                                #instead of <p> tags.
+                                #The if statement deals w/ this
+                                if s.name == None:
+                                    articleline = articleline+s.strip()+" "
+                                elif s.name == 'br':
+                                    addToLines(articleline, lines)
+                                    articleline = ''
+                                else:
+                                    for t in s.strings:
+                                        articleline = articleline+t.strip()+" "
+                               
+                            addToLines(articleline, lines)
+                            articleline = ''
+                        else:
+                            for t in c.strings:
+                                articleline = articleline+t.strip()+" "
+                    addToLines(articleline, lines)
                         
                         
         if len(lines)==0:
