@@ -60,11 +60,9 @@ if __name__ == '__main__':
 				insert_article_line(conn, url, articlesource,idx, linecount, line)
 				pass
 			except mysql.connector.Error as err:
-				linecount = linecount-1
 				print "Mysql error no: %s" % repr(err.errno)
 				raise
 			except Exception, e:
-				linecount = linecount-1
 				raise
 			else:
 				pass
