@@ -34,6 +34,18 @@ except Exception, e:
 	print "Using local configs"
 	pass
 
+
+if __name__ == '__main__':
+	datasources = datasources.datasources
+	print myconf
+	conn = mysql.connector.connect(**myconf) # Choose connection config set
+	wsjopener = getcookieopener(lib_path+'/cookies.txt')
+	article_list = getarticlelist(datasources)
+	cookieopeners = {"wsj" : wsjopener}
+	for k in article_list.iterkeys():
+		print k.encode('utf-8'),article_list[k]
+		insert_url(conn, k, article_list[k][0], article_list[k][1])
+
 	#Get un-downloaded articles
 	relevant_article_list = get_urls_with_codes(conn, 0)
 	for j in relevant_article_list:
