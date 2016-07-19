@@ -48,8 +48,8 @@ def insert_url(connection, url, datasource, title):
 # Function inserts line into database
 def insert_article_line(connection, url, datasource, article_idx, article_line_no, article_text ):
   cursor = connection.cursor(buffered=True) 
-  query = "select count(*) from sentiment.article_lines where article_url = %s AND article_line_no = %s " 
-  args = (url, article_line_no)
+  query = "select count(*) from sentiment.article_lines where article_idx = %s AND article_line_no = %s " 
+  args = (article_idx, article_line_no)
   try:
     cursor.execute(query, args)
     row = cursor.fetchone()
