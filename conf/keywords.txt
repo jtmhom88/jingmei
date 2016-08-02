@@ -20,6 +20,8 @@ bonds
 boom
 bottom
 bounce
+breakout
+breakdown
 bubble
 bull
 buoy
