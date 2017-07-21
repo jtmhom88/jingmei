@@ -41,7 +41,7 @@ if __name__ == '__main__':
 	conn = mysql.connector.connect(**myconf) # Choose connection config set
 	wsjopener = getcookieopener(lib_path+'/cookies.txt')
 	article_list = getarticlelist(datasources)
-	cookieopeners = {"wsj" : wsjopener}
+	cookieopeners = {"wsj" : wsjopener, "moneybeat" : wsjopener}
 	for k in article_list.iterkeys():
 		print k.encode('utf-8'),article_list[k]
 		insert_url(conn, k, article_list[k][0], article_list[k][1])
