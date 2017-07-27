@@ -12,7 +12,7 @@ from get_article_urls import *
 from get_article_lines import *
 from get_wsj_opener import *
 from mysql.connector.errors import Error
-import datasources
+from datasources import datasources
 
 # Configs
 # Load Env Variables if they exist, otherwise use local configs
