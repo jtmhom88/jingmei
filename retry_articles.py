@@ -75,6 +75,7 @@ if __name__ == '__main__':
 		articlesource = j[2]
 		url = j[1]
 		idx = j[0]
+		print "Retry articles working on url: ",url
 		code, lines = getarticlelines(datasources, url, articlesource, cookieopeners)
 		update_download_code(conn, idx, code)
 		linecount = 1
