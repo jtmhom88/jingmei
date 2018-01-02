@@ -32,8 +32,8 @@ def connect(config):
 # datasource example 'wsj'
 def insert_url(connection, url, datasource, title):
   cursor = connection.cursor(buffered=True) 
-  query = "INSERT IGNORE INTO sentiment.article_urls (url,datasource,title) " \
-            "VALUES(%s,%s,%s)"
+  query = "INSERT IGNORE INTO sentiment.article_urls (url,datasource,title,insert_date) " \
+            "VALUES(%s,%s,%s,NOW())"
   #args = ('http://www.wsj.com/articles/the-best-coach-approach-promote-or-poach-1449792464', 'wsj')
   args = (url, datasource, title)
   cursor.execute(query, args)
