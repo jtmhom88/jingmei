@@ -17,7 +17,7 @@ my $user = $ENV{'MYSQL_USER'};
 my $anshobango = $ENV{'MYSQL_PWD'};
 my $database = 'sentiment';
 
-#print "$host $user $anshobango $database \n";
+print "$host $user $anshobango $database \n";
 
 # Get all the keywords
 my $key_file = "./conf/keywords.txt";
