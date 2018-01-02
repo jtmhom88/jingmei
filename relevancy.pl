@@ -32,6 +32,7 @@ while (my $row = <$fh>) {
   };
 };
 
+my @crypto = ('bitcoin','blockchain','crypto','ethereum','litecoin','ripple','iota');
 # my $teststring = "http://www.thestreet.com/story/13426926/1/vw-digs-itself-into-deeper-hole-over-diesel-emissions.html";
 # $teststring = lc($teststring);
 # print "Teststring: $teststring\n";
@@ -54,13 +55,14 @@ my $dbh = DBI->connect(
 # Get article urls
 my $table = 'article_urls';
 
-my $sql = "SELECT * from $database.$table where dt_modified > DATE_SUB(NOW(), INTERVAL 2 HOUR) ";
+my $sql = "SELECT * from $database.$table where dt_modified > DATE_SUB(NOW(), INTERVAL 3 DAY) ";
 
 my $sth = $dbh->prepare($sql)
     || die "$DBI::errstr";
 $sth->execute();
 
 my %relevancy;
+my %crypto_flag;
 my $i=0;
 # Print number of rows found
 if ($sth->rows < 0) {
@@ -77,7 +79,15 @@ if ($sth->rows < 0) {
 			  if ($url =~ /$word/) {
 			    #print "Found: $word in $url\n";
 			    $relevancy{$idx}++;
+			    $crypto_flag{$idx}=0;
 			    $i++;
+			  }
+			}
+			foreach my $cw (@crypto) {
+			  if ($url =~ /$cw/) {		
+			    #print "Found: $cw in $url\n";
+			    $relevancy{$idx}=0;
+			    $crypto_flag{$idx}++;
 			  }
 			}
     }
@@ -88,7 +98,7 @@ printf ">> Total %d rows\n", $sth->rows;
 $i=0;
 foreach my $key (keys %relevancy) {
 	print "$key $relevancy{$key}\n";
-	my $sql="UPDATE IGNORE $database.$table set relevancy_score=$relevancy{$key} where idx=$key ";
+	my $sql="UPDATE IGNORE $database.$table set relevancy_score=$relevancy{$key}, crypto_flag=$crypto_flag{$key} where idx=$key ";
 	print "$sql\n";
 	$dbh->do($sql) || die "$DBI::errstr";;
 	$i++;
