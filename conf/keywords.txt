@@ -2,6 +2,8 @@
 1929
 2000
 2008
+Amazon
+Alphabet
 accelerat
 acquis
 alarm
@@ -44,6 +46,7 @@ credit
 crisis
 crude
 danger
+data
 deal
 debt
 default
@@ -77,8 +80,10 @@ euro
 expand
 expansion
 export
+Facebook
 fall
 falling
+fang
 fast
 fear
 fed
@@ -91,6 +96,7 @@ freefall
 fund
 fundamental
 future
+Google
 gain
 goldman
 greed
@@ -122,6 +128,7 @@ monetary
 mood
 morgan
 movie
+Netflix
 nasdaq
 negative
 nikkei
