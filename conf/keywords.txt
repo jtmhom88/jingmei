@@ -215,3 +215,4 @@ weigh
 yellen
 yen
 yuan
+Zcash
