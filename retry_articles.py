@@ -13,6 +13,7 @@ from get_article_lines import *
 from get_wsj_opener import *
 from mysql.connector.errors import Error
 from datasources import datasources
+import pprint
 
 # Configs
 # Load Env Variables if they exist, otherwise use local configs
@@ -71,11 +72,13 @@ if __name__ == '__main__':
 
 	#Get un-downloaded articles
 	relevant_article_list = get_urls_with_codes(conn, 0)
+
 	for j in relevant_article_list:
+		pprint.pprint(j)
 		articlesource = j[2]
 		url = j[1]
 		idx = j[0]
-		print "Retry articles working on url: ",url
+		print "Retry articles working on source,url,idx: ",articlesource,url,idx
 		code, lines = getarticlelines(datasources, url, articlesource, cookieopeners)
 		update_download_code(conn, idx, code)
 		linecount = 1
