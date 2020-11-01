@@ -5,30 +5,35 @@ data_path = os.path.abspath('./data') # LINUX
 import re, urllib2, httplib, socket
 from bs4 import BeautifulSoup
 from cookielib import CookieJar
+import random
+import time
 
-# Get article lines using wget for WSJ
-def wget_wsj(source,url):
+# Get article lines using aria2 for WSJ
+def aria2_wsj(source,url):
 	mydoc=''
 	os.chdir(data_path)
 	if source == 'wsj' or source == 'moneybeat':
-		os.system('wget -x --load-cookies ../lib/cookies.txt '+url)
+		time.sleep(random.randint(0,11))
+		myfile=url
+		#os.system('wget -x --load-cookies ../lib/cookies.txt '+url)
+		os.system('aria2c --load-cookies ../lib/cookies.txt '+ url + ' --out=' + myfile )
 	else:
-		raise RuntimeError('ERROR from wget ... Unknown source: '+source)
+		raise RuntimeError('ERROR from aria2 ... Unknown source: '+source)
 		return(-1)	
-	if 'https' in url:
-        	myfile= url.replace('https://','')
-	elif 'http' in url:
-        	myfile= url.replace('http://','')
-	else:
-		raise RuntimeError('ERROR: file has bad name: '+myfile)
-		return(-2)
+	#if 'https' in url:
+        #	myfile= url.replace('https://','')
+	#elif 'http' in url:
+        #	myfile= url.replace('http://','')
+	#else:
+	#	raise RuntimeError('ERROR: file has bad name: '+myfile)
+	#	return(-2)
 
-	print 'wget_wsj reading...',data_path+'/'+myfile
+	print 'aria2_wsj reading...',myfile
 	try:
 		with open(myfile, 'r') as myfile:
 			mydoc=myfile.read().replace('\n', '')
 	except Exception, e:
-		print 'wget_wsj Error: ',e
+		print 'aria2_wsj Error: ',e
 		print 'Error reading file: ',myfile
 
 	return(mydoc)
@@ -49,7 +54,7 @@ def getarticlelines(sourceconfigs, url, source, cookieopeners):
                                 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.5.0')]
         response = copener.open(o, timeout=5)
 	if source == 'wsj' or source == 'moneybeat':
-		mydoc = wget_wsj(source,url)
+		mydoc = aria2_wsj(source,url)
 	else:
 		mydoc = response.read()
         soup = BeautifulSoup(mydoc)
