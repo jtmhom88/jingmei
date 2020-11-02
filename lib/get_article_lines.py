@@ -12,21 +12,33 @@ import time
 def aria2_wsj(source,url):
 	mydoc=''
 	os.chdir(data_path)
+	n = random.randint(1,4)
+	if n == 1:
+		useragent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'
+	elif n == 2:
+		useragent='Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0'
+	elif n == 3:
+		useragent='Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1'
+	else:
+		useragent='Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1'
+
+	if 'https' in url:
+        	myfile= url.replace('https://','')
+	elif 'http' in url:
+        	myfile= url.replace('http://','')
+	else:
+		raise RuntimeError('ERROR: file has bad name: '+myfile)
+		return(-2)
+
 	if source == 'wsj' or source == 'moneybeat':
 		time.sleep(random.randint(0,11))
 		myfile=url
 		#os.system('wget -x --load-cookies ../lib/cookies.txt '+url)
-		os.system('aria2c --load-cookies ../lib/cookies.txt '+ url + ' --out=' + myfile )
+		#os.system('aria2c --load-cookies ../lib/cookies.txt '+ url + ' --out=' + myfile )
+		os.system('aria2c --load-cookies ../lib/cookies.txt '+ url + ' --out=' + myfile + ' --user-agent="' + useragent + '"' )
 	else:
 		raise RuntimeError('ERROR from aria2 ... Unknown source: '+source)
 		return(-1)	
-	#if 'https' in url:
-        #	myfile= url.replace('https://','')
-	#elif 'http' in url:
-        #	myfile= url.replace('http://','')
-	#else:
-	#	raise RuntimeError('ERROR: file has bad name: '+myfile)
-	#	return(-2)
 
 	print 'aria2_wsj reading...',myfile
 	try:
